@@ -51,7 +51,6 @@ my $wsdldata = do {
 
 my $request = LoadFile("$servicename.yml");
 my $operation = (keys %$request)[0];
-$request = $request->{$operation};
 
 my $wsdl = XML::Compile::WSDL11->new($wsdldata);
 
@@ -62,8 +61,7 @@ my $call = $wsdl->compileClient(
     $opt_d ? (transport => sub { print $_[0]->toString; exit 2 }) : (),
 );
 
-my ($response, $trace) = $call->($request);
-
+my ($response, $trace) = $call->($request->{$operation});
 
 print "---\n";
 $trace->printRequest;
