@@ -13,12 +13,16 @@ use HTTP::Tiny;
 use YAML::Tiny qw(LoadFile Dump);
 
 
-my $opt_d = FALSE;
+my ($opt_d, $opt_v);
 
-scalar @ARGV || die "Usage: $0 [-d] data.yml [http://schema | schema.url]\n";
+scalar @ARGV || $ARGV[0] eq '-h' || die "Usage: $0 [-d] [-v] data.yml [http://schema | schema.url]\n";
 
 if ($ARGV[0] eq '-d') {
     $opt_d = TRUE;
+    shift @ARGV;
+};
+if ($ARGV[0] eq '-v') {
+    $opt_v = TRUE;
     shift @ARGV;
 };
 
@@ -63,10 +67,15 @@ my $call = $wsdl->compileClient(
 
 my ($response, $trace) = $call->($request->{$operation});
 
-print "---\n";
-$trace->printRequest;
-print Dump({Data => $request}), "\n";
+if ($opt_v) {
+    print "---\n";
+    $trace->printRequest;
+    print Dump({Data => $request}), "\n";
 
-print "---\n";
-$trace->printResponse;
-print Dump({Data => $response}), "\n";
+    print "---\n";
+    $trace->printResponse;
+    print Dump({Data => $response}), "\n";
+}
+else {
+    print Dump($response);
+}
