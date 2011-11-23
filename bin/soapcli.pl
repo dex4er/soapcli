@@ -15,7 +15,7 @@ use YAML::Tiny qw(LoadFile Dump);
 
 my ($opt_debug, $opt_verbose);
 
-scalar @ARGV || $ARGV[0] eq '-h' || die "Usage: $0 [-d] [-v] data.yml [http://schema | schema.url]\n";
+scalar @ARGV || ($ARGV[0]||'') eq '-h' || die "Usage: $0 [-d] [-v] data.yml [http://schema | schema.url]\n";
 
 if ($ARGV[0] eq '-d') {
     $opt_debug = TRUE;
