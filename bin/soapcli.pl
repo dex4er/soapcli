@@ -72,7 +72,7 @@ my $endpoint = do {
         $url;
     }
     else {
-	$wsdl->endPoint;
+        $wsdl->endPoint;
     }
 };
 
