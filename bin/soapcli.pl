@@ -86,15 +86,14 @@ my $transport = $http->compileClient(
 );
 
 
-my $call = $wsdl->compileClient(
-    operation       => $operation,
+$wsdl->compileCalls(
     sloppy_floats   => TRUE,
     sloppy_integers => TRUE,
     transport       => $transport,
     $opt_debug ? (transport => sub { print $_[0]->toString(1); exit 2 }) : (),
 );
 
-my ($response, $trace) = $call->($request->{$operation});
+my ($response, $trace) = $wsdl->call($operation, $request->{$operation});
 
 if ($opt_verbose) {
     print "---\n";
