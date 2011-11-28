@@ -10,7 +10,7 @@ use XML::Compile::Transport::SOAPHTTP;
 use constant::boolean;
 use File::Slurp;
 use HTTP::Tiny;
-use YAML::Tiny qw(Dump LoadFile);
+use YAML::Syck qw(Dump LoadFile);
 use JSON::PP;
 
 
