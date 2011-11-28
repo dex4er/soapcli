@@ -10,7 +10,8 @@ use XML::Compile::Transport::SOAPHTTP;
 use constant::boolean;
 use File::Slurp;
 use HTTP::Tiny;
-use YAML::Tiny qw(LoadFile Dump);
+use YAML::Tiny qw(Dump LoadFile);
+use JSON::PP;
 
 
 my ($opt_debug, $opt_verbose);
@@ -27,8 +28,17 @@ if ($ARGV[0] eq '-v') {
 };
 
 
-my $arg_servicename = $ARGV[0];
-(my $servicename = $arg_servicename) =~ s/\.(url|yml|wsdl)$//;
+my $arg_request = $ARGV[0];
+my $servicename = do {
+    if ($arg_request =~ /^{/) {
+        '';
+    }
+    else {
+        my $arg = $arg_request;
+        $arg =~ s/\.(url|yml|wsdl)$//;
+        $arg;
+    };
+};
 
 
 my $arg_wsdl = $ARGV[1];
@@ -60,8 +70,17 @@ my $wsdldata = do {
 my $arg_endpoint = $ARGV[2];
 
 
-my $request = LoadFile("$servicename.yml");
-my $operation = (keys %$request)[0];
+my $request = do {
+    if ($arg_request =~ /^{/) {
+        JSON::PP->new->relaxed->allow_barekey->decode($arg_request);
+    }
+    else {
+        LoadFile($arg_request);
+    }
+};
+
+
+my $arg_operation = $ARGV[3];
 
 my $wsdl = XML::Compile::WSDL11->new($wsdldata);
 
@@ -73,6 +92,21 @@ my $endpoint = do {
     }
     else {
         $wsdl->endPoint;
+    }
+};
+
+
+my $operation = do {
+    if (defined $arg_operation) {
+        $arg_operation
+    }
+    elsif ($endpoint =~ s/^(.*)#(.*)$/$1/) {
+        $2;
+    }
+    else {
+        my $o = (keys %$request)[0];
+        $request = $request->{$o};
+        $o;
     }
 };
 
@@ -93,16 +127,16 @@ $wsdl->compileCalls(
     $opt_debug ? (transport => sub { print $_[0]->toString(1); exit 2 }) : (),
 );
 
-my ($response, $trace) = $wsdl->call($operation, $request->{$operation});
+my ($response, $trace) = $wsdl->call($operation, $request);
 
 if ($opt_verbose) {
     print "---\n";
     $trace->printRequest;
-    print Dump({Data => $request}), "\n";
+    print Dump({ Data => { $operation => $request } }), "\n";
 
     print "---\n";
     $trace->printResponse;
-    print Dump({Data => $response}), "\n";
+    print Dump({ Data => $response }), "\n";
 }
 else {
     print Dump($response);
