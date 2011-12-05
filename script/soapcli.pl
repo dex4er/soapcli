@@ -3,6 +3,7 @@
 use warnings;
 use strict;
 
+use XML::LibXML;
 use XML::Compile::WSDL11;
 use XML::Compile::SOAP11;
 use XML::Compile::Transport::SOAPHTTP;
@@ -82,7 +83,15 @@ my $request = do {
 
 my $arg_operation = $ARGV[3];
 
-my $wsdl = XML::Compile::WSDL11->new($wsdldata);
+my $wsdldom = XML::LibXML->load_xml(string => $wsdldata);
+my $imports = $wsdldom->find('/wsdl:definitions/wsdl:types/xsd:schema/xsd:import');
+
+my @schemas = map { $_->getAttribute('schemaLocation') } $imports->get_nodelist;
+
+my $wsdl = XML::Compile::WSDL11->new;
+
+$wsdl->importDefinitions(\@schemas);
+$wsdl->addWSDL($wsdldom);
 
 my $endpoint = do {
     if (defined $arg_endpoint) {
