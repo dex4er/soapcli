@@ -93,6 +93,15 @@ my $wsdl = XML::Compile::WSDL11->new;
 $wsdl->importDefinitions(\@schemas);
 $wsdl->addWSDL($wsdldom);
 
+$wsdl->addHook({ type => 'xsd:hexBinary', replace => sub {
+    my ($doc, $value, $path, $label, $replaced) = @_;
+    defined $value or return;
+
+    my $node = $doc->createElement($label);
+    $node->appendText($value);
+    return $node;
+} });
+
 my $endpoint = do {
     if (defined $arg_endpoint) {
         my $url = $arg_endpoint =~ m{://} ? $arg_endpoint : read_file($arg_endpoint, chomp=>TRUE);
