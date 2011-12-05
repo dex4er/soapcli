@@ -23,6 +23,12 @@ my $build = Module::Build->new(
     build_requires => {
         'Test::More'         => 0,
     },
+    PL_files => {
+        'WithoutSuffix.PL' => [ 'script/soapcli' ],
+    },
+    script_files => [
+        'script/soapcli',
+    ],
     auto_configure_requires => 0,
     create_makefile_pl => 'traditional',
     create_readme => 1,

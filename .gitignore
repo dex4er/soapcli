@@ -14,6 +14,7 @@ Debian_CPANTS.txt
 LICENSE
 MANIFEST
 META.yml
+MYMETA.json
 MYMETA.yml
 Makefile.PL
 README
@@ -21,3 +22,4 @@ _build
 blib
 cover_db
 tmon.out
+script/soapcli
