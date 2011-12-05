@@ -2,7 +2,7 @@ package App::soapcli;
 
 =head1 NAME
 
-App::soapcli - Skeleton for new modules
+App::soapcli - SOAP client for CLI with YAML and JSON input
 
 =head1 SYNOPSIS
 

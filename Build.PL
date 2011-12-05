@@ -13,7 +13,7 @@ my $module = 'App::soapcli';
 
 my $build = Module::Build->new(
     module_name => $module,
-    dist_version_from => 'bin/soapcli.pl',
+    dist_version_from => 'lib/App/soapcli.pm',
     license => 'perl',
     requires => {
         'perl'               => 5.006,
