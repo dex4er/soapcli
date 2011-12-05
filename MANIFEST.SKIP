@@ -58,4 +58,7 @@
 
 # Avoid distdir
 \d+\.\d+\b
-^MYMETA.yml$
+
+# Avoid MYMETA
+^MYMETA\.yml$
+^MYMETA\.json$
