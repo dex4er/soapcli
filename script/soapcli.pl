@@ -3,6 +3,8 @@
 use warnings;
 use strict;
 
+use Log::Report 'soapcli', syntax => 'SHORT';
+
 use XML::LibXML;
 use XML::Compile::WSDL11;
 use XML::Compile::SOAP11;
@@ -93,14 +95,12 @@ my $wsdl = XML::Compile::WSDL11->new;
 $wsdl->importDefinitions(\@schemas);
 $wsdl->addWSDL($wsdldom);
 
-$wsdl->addHook({ type => 'xsd:hexBinary', replace => sub {
-    my ($doc, $value, $path, $label, $replaced) = @_;
+$wsdl->addHook(type => 'xsd:hexBinary', before => sub {
+    my ($doc, $value, $path) = @_;
     defined $value or return;
-
-    my $node = $doc->createElement($label);
-    $node->appendText($value);
-    return $node;
-} });
+    $value =~ m/^[0-9a-fA-F]+$/ or error __x"{path} contains illegal characters", path => $path;
+    return pack 'H*', $value;
+});
 
 my $endpoint = do {
     if (defined $arg_endpoint) {
