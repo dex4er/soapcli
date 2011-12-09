@@ -75,7 +75,7 @@ my $arg_endpoint = $ARGV[2];
 
 my $request = do {
     if ($arg_request =~ /^{/) {
-        JSON::PP->new->relaxed->allow_barekey->decode($arg_request);
+        JSON::PP->new->utf8->relaxed->allow_barekey->decode($arg_request);
     }
     else {
         LoadFile($arg_request);
