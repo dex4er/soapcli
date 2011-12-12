@@ -17,6 +17,12 @@ my $build = Module::Build->new(
     license => 'perl',
     requires => {
         'perl'               => 5.006,
+        'constant::boolean'  => 0,
+        'File::Slurp'        => 0,
+        'HTTP::Tiny'         => 0,
+        'JSON::PP'           => 0,
+        'XML::Compile::SOAP' => 0,
+        'YAML::Syck'         => 0,
     },
     optional => {
     },
