@@ -59,13 +59,13 @@ my $wsdlsrc = do {
 };
 
 my $wsdldata = do {
-    if ($wsdlsrc =~ /\.wsdl$/) {
-        read_file($wsdlsrc) if $wsdlsrc =~ /\.wsdl$/;
-    }
-    else {
+    if ($wsdlsrc =~ /\.url$/ or $wsdlsrc =~ m{://}) {
         my $url = $wsdlsrc =~ m{://} ? $wsdlsrc : read_file($wsdlsrc, chomp=>TRUE);
         chomp $url;
         HTTP::Tiny->new->get($url)->{content};
+    }
+    else {
+        read_file($wsdlsrc) if $wsdlsrc =~ /\.wsdl$/;
     }
 };
 
