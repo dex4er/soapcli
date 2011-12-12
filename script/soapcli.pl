@@ -86,16 +86,16 @@ my $request = do {
 my $arg_operation = $ARGV[3];
 
 my $wsdldom = XML::LibXML->load_xml(string => $wsdldata);
-my $imports = $wsdldom->find('/wsdl:definitions/wsdl:types/xsd:schema/xsd:import');
+my $imports = eval { $wsdldom->find('/wsdl:definitions/wsdl:types/xsd:schema/xsd:import') };
 
-my @schemas = map { $_->getAttribute('schemaLocation') } $imports->get_nodelist;
+my @schemas = eval { map { $_->getAttribute('schemaLocation') } $imports->get_nodelist };
 
 my $wsdl = XML::Compile::WSDL11->new;
 
 $wsdl->importDefinitions(\@schemas);
 $wsdl->addWSDL($wsdldom);
 
-$wsdl->addHook(type => 'xsd:hexBinary', before => sub {
+$wsdl->addHook(type => '{http://www.w3.org/2001/XMLSchema}hexBinary', before => sub {
     my ($doc, $value, $path) = @_;
     defined $value or return;
     $value =~ m/^[0-9a-fA-F]+$/ or error __x"{path} contains illegal characters", path => $path;
@@ -103,7 +103,7 @@ $wsdl->addHook(type => 'xsd:hexBinary', before => sub {
 });
 
 my $endpoint = do {
-    if (defined $arg_endpoint) {
+    if (defined $arg_endpoint and $arg_endpoint !~ /^#/) {
         my $url = $arg_endpoint =~ m{://} ? $arg_endpoint : read_file($arg_endpoint, chomp=>TRUE);
         chomp $url;
         $url;
@@ -113,13 +113,13 @@ my $endpoint = do {
     }
 };
 
+$endpoint =~ s/^(.*)#(.*)$/$1/;
+
+my $port = $2;
 
 my $operation = do {
     if (defined $arg_operation) {
         $arg_operation
-    }
-    elsif ($endpoint =~ s/^(.*)#(.*)$/$1/) {
-        $2;
     }
     else {
         my $o = (keys %$request)[0];
@@ -134,7 +134,7 @@ my $http = XML::Compile::Transport::SOAPHTTP->new(
 );
 
 my $transport = $http->compileClient(
-    action => $operation,
+#    action => $operation,
 );
 
 
@@ -142,6 +142,7 @@ $wsdl->compileCalls(
     sloppy_floats   => TRUE,
     sloppy_integers => TRUE,
     transport       => $transport,
+    port            => $port,
     $opt_debug ? (transport => sub { print $_[0]->toString(1); exit 2 }) : (),
 );
 
