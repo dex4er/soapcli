@@ -8,6 +8,18 @@ App::soapcli - SOAP client for CLI with YAML and JSON input
 
 This is a package with sopacli(1) utility.
 
+Example:
+
+  $ soapcli -v calculator.yml calculator.url
+
+  $ soapcli -v '{add:{x:2,y:2}}' http://soaptest.parasoft.com/calculator.wsdl
+
+  $ soapcli -v globalweather.yml globalweather.url '#GlobalWeatherSoap'
+
+  $ soapcli '{CityName:"Warszawa",CountryName:"Poland"}' \
+  http://www.webservicex.com/globalweather.asmx?WSDL \
+  '#GlobalWeatherSoap' GetWeather
+
 =cut
 
 
