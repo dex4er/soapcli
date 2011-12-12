@@ -102,20 +102,29 @@ $wsdl->addHook(type => '{http://www.w3.org/2001/XMLSchema}hexBinary', before => 
     return pack 'H*', $value;
 });
 
+my $port = do {
+    if (defined $arg_endpoint and $arg_endpoint =~ /#(.*)$/) {
+        $1;
+    }
+    else {
+        undef;
+    }
+};
+
 my $endpoint = do {
     if (defined $arg_endpoint and $arg_endpoint !~ /^#/) {
         my $url = $arg_endpoint =~ m{://} ? $arg_endpoint : read_file($arg_endpoint, chomp=>TRUE);
         chomp $url;
+        $url =~ s/^(.*)#(.*)$/$1/;
         $url;
     }
     else {
-        $wsdl->endPoint;
+        $wsdl->endPoint(
+            defined $port ? ( port => $port ) : (),
+        );
     }
 };
 
-$endpoint =~ s/^(.*)#(.*)$/$1/;
-
-my $port = $2;
 
 my $operation = do {
     if (defined $arg_operation) {
@@ -142,8 +151,8 @@ $wsdl->compileCalls(
     sloppy_floats   => TRUE,
     sloppy_integers => TRUE,
     transport       => $transport,
-    port            => $port,
-    $opt_debug ? (transport => sub { print $_[0]->toString(1); exit 2 }) : (),
+    defined $port ? ( port => $port ) : (),
+    $opt_debug ? ( transport => sub { print $_[0]->toString(1); exit 2 } ) : (),
 );
 
 my ($response, $trace) = $wsdl->call($operation, $request);
