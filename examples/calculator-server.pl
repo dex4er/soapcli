@@ -1,7 +1,18 @@
 #!/usr/bin/env perl
 
+# Sample server which provides calculator webservice.
+#
+# Start server:
+#   lwp-mirror http://soaptest.parasoft.com/calculator.wsdl calculator.wsdl
+#   perl calculator-server.pl
+#
+# Run client:
+#   soapcli '{add:{x:2,y:3}}' calculator.wsdl http://localhost:8000/
+
 use warnings;
 use strict;
+
+use constant SERVER_PORT => 8000;
 
 use XML::Compile::SOAP::Daemon::NetServer;
 use XML::Compile::WSDL11;
@@ -75,7 +86,7 @@ $daemon->operationsFromWSDL(
 $daemon->setWsdlResponse($wsdl_filename);
 
 $daemon->run(
-    port => $ARGV[0] || 8980,
+    port => $ARGV[0] || SERVER_PORT,
     name => $0,
 );
 
