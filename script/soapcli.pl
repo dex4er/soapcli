@@ -33,7 +33,7 @@ if ($ARGV[0] eq '-v') {
 
 my $arg_request = $ARGV[0];
 my $servicename = do {
-    if ($arg_request =~ /^{/) {
+    if ($arg_request =~ /^{/ or $arg_request eq '-') {
         '';
     }
     else {
@@ -76,6 +76,9 @@ my $arg_endpoint = $ARGV[2];
 my $request = do {
     if ($arg_request =~ /^{/) {
         JSON::PP->new->utf8->relaxed->allow_barekey->decode($arg_request);
+    }
+    elsif ($arg_request eq '-') {
+        LoadFile(\*STDIN);
     }
     else {
         LoadFile($arg_request);
