@@ -145,8 +145,10 @@ my $http = XML::Compile::Transport::SOAPHTTP->new(
     address => $endpoint,
 );
 
+my $action = eval { $wsdl->operation($operation)->soapAction() };
+
 my $transport = $http->compileClient(
-#    action => $operation,
+    action => $action,
 );
 
 
