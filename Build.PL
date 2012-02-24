@@ -5,13 +5,13 @@ use 5.006;
 use strict;
 use warnings;
 
-use Module::Build;
+use MyModuleBuild;
 
 my $module = 'App::soapcli';
 
 (my $dist = $module) =~ s/::/-/g;
 
-my $build = Module::Build->new(
+my $build = MyModuleBuild->new(
     module_name => $module,
     dist_version_from => 'lib/App/soapcli.pm',
     license => 'perl',
@@ -29,11 +29,8 @@ my $build = Module::Build->new(
     build_requires => {
         'Test::More'         => 0,
     },
-    PL_files => {
-        'WithoutSuffix.PL' => [ 'script/soapcli' ],
-    },
     script_files => [
-        'script/soapcli',
+        'script/soapcli.pl',
     ],
     auto_configure_requires => 0,
     create_makefile_pl => 'traditional',
