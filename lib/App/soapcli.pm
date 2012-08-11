@@ -43,6 +43,26 @@ use YAML::Syck qw(Dump LoadFile);
 use JSON::PP;
 
 
+=head1 ATTRIBUTES
+
+=over
+
+=item argv : ArrayRef
+
+Arguments list with options for the application.
+
+=back
+
+=head1 METHODS
+
+=over
+
+=item new(I<%args>)
+
+The default constructor.
+
+=cut
+
 sub new {
     my ($class, %args) = @_;
     return bless {
@@ -52,11 +72,25 @@ sub new {
 };
 
 
+=item new_with_argv()
+
+The constructor which initializes the object based on C<@ARGV> variable.
+
+=cut
+
 sub new_with_argv {
-    my ($class, @args) = @_;
+    my ($class) = @_;
     return $class->new(argv => [@ARGV]);
 };
 
+
+=item run()
+
+Run the main job
+
+=back
+
+=cut
 
 sub run {
     my ($self) = @_;
@@ -218,6 +252,8 @@ sub run {
     else {
         print Dump($response);
     }
+
+    return TRUE;
 };
 
 

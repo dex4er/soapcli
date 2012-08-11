@@ -5,6 +5,8 @@ verbose = 4
 [ControlStructures::ProhibitCascadingIfElse]
 max_elsif = 5
 
+[-ErrorHandling::RequireCarping]
+
 [Modules::ProhibitExcessMainComplexity]
 max_mccabe = 30
 
