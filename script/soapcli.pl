@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-App::soapcli - SOAP client for CLI with YAML and JSON input
+soapcli - SOAP client for CLI with YAML and JSON input
 
 =head1 SYNOPSIS
 

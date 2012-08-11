@@ -4,10 +4,12 @@ use base 'Module::Build';
 use File::Spec;
 
 # Use FatPacker to replace *.pl file with fatpacked script
+
 sub copy_if_modified {
     my $self = shift;
     my %args = (@_ > 3 ? ( @_ ) : ( from => shift, to_dir => shift, flatten => shift ) );
-    if ($args{from} =~ /\.pl$/ and $args{to_dir}) {
+    # Only for script/*.pl files
+    if ($args{from} =~ /\bscript\/.*\.pl$/ and $args{to_dir}) {
         my (undef, undef, $file) = File::Spec->splitpath($args{from});
         $file =~ s/\.pl$//;
         $args{to} = File::Spec->catfile($args{to_dir}, $file);
@@ -19,7 +21,7 @@ sub copy_if_modified {
             open my $out, ">", $dest or die $!;
             local @ARGV = qw(file);
             while (<$in>) {
-                s/__END__/scalar(`$^X -e "use App::FatPacker -run_script" file`)/e;
+                s/^__(?:END)__$/scalar(`$^X -e "use App::FatPacker -run_script" file`)/e;
                 print $out $_;
             };
             return 1;
@@ -27,6 +29,6 @@ sub copy_if_modified {
         return $self->SUPER::copy_if_modified(%args);
     };
     return $self->SUPER::copy_if_modified(%args);
-}
+};
 
 1;
