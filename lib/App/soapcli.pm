@@ -37,6 +37,7 @@ use XML::Compile::Transport::SOAPHTTP;
 
 use constant::boolean;
 use File::Slurp;
+use Getopt::Long::Descriptive;
 use HTTP::Tiny;
 use YAML::Syck qw(Dump LoadFile);
 use JSON::PP;
@@ -62,19 +63,14 @@ sub run {
 
     local @ARGV = @{ $self->{argv} };
 
-    my ($opt_debug, $opt_verbose);
+    my ($opt, $usage) = describe_options(
+        "$0 %o data.yml [http://schema | schema.url]",
+        [ 'verbose|v',     'verbose mode with messages trace', ],
+        [ 'xml-request|x', 'dump request as XML document', ],
+        [ 'help|h',        'print usage message and exit', ],
+    );
 
-    scalar @ARGV || ($ARGV[0]||'') eq '-h' || die "Usage: $0 [-d] [-v] data.yml [http://schema | schema.url]\n";
-
-    if ($ARGV[0] eq '-d') {
-        $opt_debug = TRUE;
-        shift @ARGV;
-    };
-    if ($ARGV[0] eq '-v') {
-        $opt_verbose = TRUE;
-        shift @ARGV;
-    };
-
+    die $usage->text if $opt->help or @ARGV < 1;
 
     my $arg_request = $ARGV[0];
     my $servicename = do {
@@ -124,6 +120,9 @@ sub run {
         }
         elsif ($arg_request eq '-') {
             LoadFile(\*STDIN);
+        }
+        elsif ($arg_request =~ /\.json$/) {
+            JSON::PP->new->utf8->relaxed->allow_barekey->decode(read_file($arg_request));
         }
         else {
             LoadFile($arg_request);
@@ -202,12 +201,12 @@ sub run {
         sloppy_integers => TRUE,
         transport       => $transport,
         defined $port ? ( port => $port ) : (),
-        $opt_debug ? ( transport => sub { print $_[0]->toString(1); exit 2 } ) : (),
+        $opt->xml_request ? ( transport => sub { print $_[0]->toString(1); exit 2 } ) : (),
     );
 
     my ($response, $trace) = $wsdl->call($operation, $request);
 
-    if ($opt_verbose) {
+    if ($opt->verbose) {
         print "---\n";
         $trace->printRequest;
         print Dump({ Data => { $operation => $request } }), "\n";

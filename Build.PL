@@ -19,6 +19,7 @@ my $build = MyModuleBuild->new(
         'perl'                  => 5.006,
         'constant::boolean'     => 0,
         'File::Slurp'           => 0,
+        'Getopt::Long::Descriptive' => 0,
         'HTTP::Tiny'            => 0,
         'JSON::PP'              => 0,
         'XML::Compile::SOAP'    => 0,
