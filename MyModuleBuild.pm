@@ -1,4 +1,5 @@
 package MyModuleBuild;
+
 use base 'Module::Build';
 
 use File::Spec;

@@ -1,19 +1,27 @@
 # NAME
 
-App::soapcli - SOAP client for CLI with YAML and JSON input
+soapcli - SOAP client for CLI with YAML and JSON input
 
 # SYNOPSIS
 
-    my $app = App::soapcli->new(qw( calculator.yml calculator.url ));
-    $app->run;
+    $ soapcli -v calculator.yml calculator.url
+
+    $ soapcli -v '{add:{x:2,y:2}}' http://soaptest.parasoft.com/calculator.wsdl
+
+    $ soapcli -v globalweather.yml globalweather.url '#GlobalWeatherSoap'
+
+    $ soapcli '{CityName:"Warszawa",CountryName:"Poland"}' \
+    http://www.webservicex.com/globalweather.asmx?WSDL \
+    '#GlobalWeatherSoap' GetWeather
 
 # DESCRIPTION
 
-This is core module for soapcli(1) utility.
+This is command-line SOAP client which accepts YAML or JSON document as
+an input data.
 
 # SEE ALSO
 
-[http://github.com/dex4er/soapcli](http://github.com/dex4er/soapcli), soapcli(1).
+[http://github.com/dex4er/soapcli](http://github.com/dex4er/soapcli).
 
 # AUTHOR
 
