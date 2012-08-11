@@ -53,6 +53,13 @@ App::soapcli->new_with_argv->run;
 
 L<http://github.com/dex4er/soapcli>.
 
+=head1 BUGS
+
+This tool has unstable features and can change in future.
+
+The tool is limited to webservices which support SOAP with document-literal
+style only.
+
 =head1 AUTHOR
 
 Piotr Roszatycki <dexter@cpan.org>
