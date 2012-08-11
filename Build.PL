@@ -27,6 +27,7 @@ my $build = MyModuleBuild->new(
     optional => {
     },
     build_requires => {
+        'App::FatPacker'     => 0,
         'Test::More'         => 0,
     },
     script_files => [
