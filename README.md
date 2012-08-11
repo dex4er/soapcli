@@ -4,6 +4,19 @@ soapcli - SOAP client for CLI with YAML and JSON input
 
 # SYNOPSIS
 
+__soapcli__
+\[--verbose|-v\]
+\[--xml-request|-x\]
+data.yml|data.json|{string:"JSON"}|-
+\[webservice.wsdl|webservice\_wsdl.url\]
+\[\[http://example.com/endpoint|endpoint.url\]\[\#port\]\]
+\[operation\]
+
+__soapcli__
+\[--help|-h\]
+
+Examples:
+
     $ soapcli -v calculator.yml calculator.url
 
     $ soapcli -v '{add:{x:2,y:2}}' http://soaptest.parasoft.com/calculator.wsdl
