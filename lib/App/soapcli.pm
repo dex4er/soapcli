@@ -8,7 +8,7 @@ App::soapcli - SOAP client for CLI with YAML and JSON input
 
 =head1 SYNOPSIS
 
-  my $app = App::soapcli->new(qw( calculator.yml calculator.url ));
+  my $app = App::soapcli->new(argv => [qw( calculator.yml calculator.url )]);
   $app->run;
 
 =head1 DESCRIPTION
