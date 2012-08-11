@@ -26,6 +26,9 @@
 \bcover_db
 \btmon.out$
 
+# Avoid Devel::NYTProf generated files
+\bnytprof
+
 # Avoid temp and backup files.
 ~$
 \.tmp$
@@ -58,7 +61,5 @@
 
 # Avoid distdir
 \d+\.\d+\b
-
-# Avoid MYMETA
-^MYMETA\.yml$
+^MYMETA.yml$
 ^MYMETA\.json$

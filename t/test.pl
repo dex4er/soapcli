@@ -21,3 +21,8 @@ BEGIN {
 use Test::Harness;
 
 runtests( <t/*.t> );
+> 1 } @ARGV;
+$Test::Harness::verbose = 1 if $opts{-v};
+$ENV{HARNESS_OPTIONS} = $opts{'--nocolor'} ? '' : 'c';
+
+runtests( <t/*.t> );
