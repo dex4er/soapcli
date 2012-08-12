@@ -239,7 +239,7 @@ sub run {
         sloppy_integers => TRUE,
         transport       => $transport,
         defined $port ? ( port => $port ) : (),
-        $self->{dump_xml_request} ? ( transport => sub { print $_[0]->toString(1); exit 2 } ) : (),
+        $self->{dump_xml_request} ? ( transport => sub { print $_[0]->toString(1); goto EXIT } ) : (),
     );
 
     my ($response, $trace) = $wsdl->call($operation, $request);
@@ -257,6 +257,7 @@ sub run {
         print Dump($response);
     }
 
+    EXIT:
     return TRUE;
 };
 
