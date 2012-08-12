@@ -46,7 +46,7 @@ our $VERSION = '0.01';
 
 use App::soapcli;
 
-App::soapcli->new_with_argv->run;
+App::soapcli->new_with_options->run;
 
 
 =head1 SEE ALSO

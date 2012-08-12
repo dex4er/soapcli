@@ -37,7 +37,7 @@ use XML::Compile::Transport::SOAPHTTP;
 
 use constant::boolean;
 use File::Slurp;
-use Getopt::Long::Descriptive;
+use Getopt::Long::Descriptive ();
 use HTTP::Tiny;
 use YAML::Syck qw(Dump LoadFile);
 use JSON::PP;
@@ -57,7 +57,7 @@ Arguments list with options for the application.
 
 =over
 
-=item new(I<%args>)
+=item new (I<%args>)
 
 The default constructor.
 
@@ -66,25 +66,40 @@ The default constructor.
 sub new {
     my ($class, %args) = @_;
     return bless {
-        argv => [],
+        argv       => [],
+        extra_argv => [],
         %args,
     } => $class;
 };
 
 
-=item new_with_argv()
+=item new_with_options (%args)
 
-The constructor which initializes the object based on C<@ARGV> variable.
+The constructor which initializes the object based on C<@ARGV> variable or
+based on array reference if I<argv> option is set.
 
 =cut
 
-sub new_with_argv {
-    my ($class) = @_;
-    return $class->new(argv => [@ARGV]);
+sub new_with_options {
+    my ($class, %args) = @_;
+
+    my $argv = delete $args{argv};
+    local @ARGV = $argv ? @$argv : @ARGV;
+
+    my ($opts, $usage) = Getopt::Long::Descriptive::describe_options(
+        "$0 %o data.yml [http://schema | schema.url]",
+        [ 'verbose|v',     'verbose mode with messages trace', ],
+        [ 'xml-request|x', 'dump request as XML document', ],
+        [ 'help|h',        'print usage message and exit', ],
+    );
+
+    die $usage->text if $opts->help or @ARGV < 1;
+
+    return $class->new(extra_argv => [@ARGV], %$opts);
 };
 
 
-=item run()
+=item run ()
 
 Run the main job
 
@@ -95,18 +110,7 @@ Run the main job
 sub run {
     my ($self) = @_;
 
-    local @ARGV = @{ $self->{argv} };
-
-    my ($opt, $usage) = describe_options(
-        "$0 %o data.yml [http://schema | schema.url]",
-        [ 'verbose|v',     'verbose mode with messages trace', ],
-        [ 'xml-request|x', 'dump request as XML document', ],
-        [ 'help|h',        'print usage message and exit', ],
-    );
-
-    die $usage->text if $opt->help or @ARGV < 1;
-
-    my $arg_request = $ARGV[0];
+    my $arg_request = $self->{extra_argv}->[0];
     my $servicename = do {
         if ($arg_request =~ /^{/ or $arg_request eq '-') {
             '';
@@ -119,11 +123,11 @@ sub run {
     };
 
 
-    my $arg_wsdl = $ARGV[1];
+    my $arg_wsdl = $self->{extra_argv}->[1];
 
     my $wsdlsrc = do {
-        if (defined $ARGV[1]) {
-            $ARGV[1];
+        if (defined $self->{extra_argv}->[1]) {
+            $self->{extra_argv}->[1];
         }
         elsif (-f "$servicename.wsdl") {
             "$servicename.wsdl";
@@ -145,7 +149,7 @@ sub run {
     };
 
 
-    my $arg_endpoint = $ARGV[2];
+    my $arg_endpoint = $self->{extra_argv}->[2];
 
 
     my $request = do {
@@ -164,7 +168,7 @@ sub run {
     };
 
 
-    my $arg_operation = $ARGV[3];
+    my $arg_operation = $self->{extra_argv}->[3];
 
     my $wsdldom = XML::LibXML->load_xml(string => $wsdldata);
     my $imports = eval { $wsdldom->find('/wsdl:definitions/wsdl:types/xsd:schema/xsd:import') };
@@ -235,12 +239,12 @@ sub run {
         sloppy_integers => TRUE,
         transport       => $transport,
         defined $port ? ( port => $port ) : (),
-        $opt->xml_request ? ( transport => sub { print $_[0]->toString(1); exit 2 } ) : (),
+        $self->{xml_request} ? ( transport => sub { print $_[0]->toString(1); exit 2 } ) : (),
     );
 
     my ($response, $trace) = $wsdl->call($operation, $request);
 
-    if ($opt->verbose) {
+    if ($self->{verbose}) {
         print "---\n";
         $trace->printRequest;
         print Dump({ Data => { $operation => $request } }), "\n";
