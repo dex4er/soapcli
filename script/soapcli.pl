@@ -8,7 +8,7 @@ soapcli - SOAP client for CLI with YAML and JSON input
 
 B<soapcli>
 S<[--verbose|-v]>
-S<[--xml-request|-x]>
+S<[--dump-xml-request|-x]>
 data.yml|data.json|{string:"JSON"}|-
 [webservice.wsdl|webservice_wsdl.url]
 [[http://example.com/endpoint|endpoint.url][#port]]

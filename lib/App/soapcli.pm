@@ -88,9 +88,9 @@ sub new_with_options {
 
     my ($opts, $usage) = Getopt::Long::Descriptive::describe_options(
         "$0 %o data.yml [http://schema | schema.url]",
-        [ 'verbose|v',     'verbose mode with messages trace', ],
-        [ 'xml-request|x', 'dump request as XML document', ],
-        [ 'help|h',        'print usage message and exit', ],
+        [ 'verbose|v',          'verbose mode with messages trace', ],
+        [ 'dump-xml-request|x', 'dump request as XML document', ],
+        [ 'help|h',             'print usage message and exit', ],
     );
 
     die $usage->text if $opts->help or @ARGV < 1;
@@ -239,7 +239,7 @@ sub run {
         sloppy_integers => TRUE,
         transport       => $transport,
         defined $port ? ( port => $port ) : (),
-        $self->{xml_request} ? ( transport => sub { print $_[0]->toString(1); exit 2 } ) : (),
+        $self->{dump_xml_request} ? ( transport => sub { print $_[0]->toString(1); exit 2 } ) : (),
     );
 
     my ($response, $trace) = $wsdl->call($operation, $request);
