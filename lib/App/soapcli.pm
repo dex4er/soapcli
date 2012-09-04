@@ -240,6 +240,9 @@ sub run {
         address => $endpoint,
     );
 
+    $http->userAgent->agent("soapcli/$VERSION");
+    $http->userAgent->env_proxy;
+
     my $action = eval { $wsdl->operation($operation)->soapAction() };
 
     my $transport = $http->compileClient(
