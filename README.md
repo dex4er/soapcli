@@ -44,7 +44,7 @@ port. The URL address of endpoint is optional if is already a part of WSDL
 data. The name of port is optional if it is unambiguous for called method. The
 name of port should start with `#` character.
 
-The forth argument is a name of method. It is optional if a name of method is
+The fourth argument is a name of method. It is optional if a name of method is
 already a part of request data.
 
 # SEE ALSO
