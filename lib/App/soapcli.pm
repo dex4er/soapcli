@@ -131,14 +131,14 @@ sub run {
             LOOP: {
                 do {
                     if (-f "$name.wsdl") {
-                        $name = "$name.wsdl";
+                        $name .= '.wsdl';
                         last;
                     }
                     elsif (-f "$name.url") {
-                        $name = "$name.url";
+                        $name .= '.url';
                         last;
                     };
-                    $name =~ s/[._-].*?$//;
+                    $name =~ s/[._-][^._-]*$//;
                 }
                 while ($name =~ /[._-]/);
                 $name .= '.wsdl';
