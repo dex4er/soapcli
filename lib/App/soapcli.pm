@@ -37,6 +37,7 @@ use File::Slurp               qw(read_file);
 use Getopt::Long::Descriptive ();
 use HTTP::Tiny                ();
 use YAML::Syck                ();
+use YAML::XS                  ();
 use JSON::PP                  ();
 
 
@@ -259,14 +260,14 @@ sub run {
     if ($self->{verbose}) {
         print "---\n";
         $trace->printRequest;
-        print YAML::Syck::Dump({ Data => { $operation => $request } }), "\n";
+        print YAML::XS::Dump({ Data => { $operation => $request } }), "\n";
 
         print "---\n";
         $trace->printResponse;
-        print YAML::Syck::Dump({ Data => $response }), "\n";
+        print YAML::XS::Dump({ Data => $response }), "\n";
     }
     else {
-        print YAML::Syck::Dump($response);
+        print YAML::XS::Dump($response);
     }
 
     EXIT:
