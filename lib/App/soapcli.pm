@@ -25,9 +25,6 @@ use warnings;
 
 our $VERSION = '0.02';
 
-use warnings;
-use strict;
-
 use Log::Report 'soapcli', syntax => 'SHORT';
 
 use XML::LibXML;
@@ -37,10 +34,10 @@ use XML::Compile::Transport::SOAPHTTP;
 
 use constant::boolean;
 use File::Slurp               qw(read_file);
-use Getopt::Long::Descriptive   ();
-use HTTP::Tiny                  ();
-use YAML::Syck                  ();
-use JSON::PP                    ();
+use Getopt::Long::Descriptive ();
+use HTTP::Tiny                ();
+use YAML::Syck                ();
+use JSON::PP                  ();
 
 
 =head1 ATTRIBUTES
@@ -129,12 +126,25 @@ sub run {
         if (defined $self->{extra_argv}->[1]) {
             $self->{extra_argv}->[1];
         }
-        elsif (-f "$servicename.wsdl") {
-            "$servicename.wsdl";
-        }
         else {
-            "$servicename.url";
-        }
+            my $name = $servicename;
+            LOOP: {
+                do {
+                    if (-f "$name.wsdl") {
+                        $name = "$name.wsdl";
+                        last;
+                    }
+                    elsif (-f "$name.url") {
+                        $name = "$name.url";
+                        last;
+                    };
+                    $name =~ s/[._-].*?$//;
+                }
+                while ($name =~ /[._-]/);
+                $name .= '.wsdl';
+            };
+            $name;
+        };
     };
 
     my $wsdldata = do {
@@ -143,10 +153,10 @@ sub run {
             chomp $url;
             HTTP::Tiny->new->get($url)->{content};
         }
-        else {
-            read_file($wsdlsrc) if $wsdlsrc =~ /\.wsdl$/;
-        }
-    };
+        elsif ($wsdlsrc =~ /\.wsdl$/ and -f $wsdlsrc) {
+            read_file($wsdlsrc);
+        };
+    } or die "Can not read WSDL data from `$wsdlsrc': $!\n";
 
 
     my $arg_endpoint = $self->{extra_argv}->[2];
@@ -166,6 +176,8 @@ sub run {
             YAML::Syck::LoadFile($arg_request);
         }
     };
+
+    die "Wrong request format from `$arg_request'\n" unless ref $request||'' eq 'HASH';
 
 
     my $arg_operation = $self->{extra_argv}->[3];
