@@ -1,6 +1,7 @@
 ------------------------------------------------------------------------
 0.02    2012-09-04      Piotr Roszatycki <dexter@cpan.org>
 
+* WSDL filename is guessed from request data filename.
 * User-Agent is "soapcli/$VERSION".
 * Supports HTTP proxy.
 * Requires YAML::XS for dumping of request (has better output format).
