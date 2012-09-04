@@ -44,7 +44,7 @@ use warnings;
 
 our $VERSION = '0.02';
 
-use App::soapcli;
+require App::soapcli;
 
 App::soapcli->new_with_options->run;
 
