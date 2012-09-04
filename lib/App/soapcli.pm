@@ -36,11 +36,11 @@ use XML::Compile::SOAP11;
 use XML::Compile::Transport::SOAPHTTP;
 
 use constant::boolean;
-use File::Slurp;
-use Getopt::Long::Descriptive ();
-use HTTP::Tiny;
-use YAML::Syck qw(Dump LoadFile);
-use JSON::PP;
+use File::Slurp               qw(read_file);
+use Getopt::Long::Descriptive   ();
+use HTTP::Tiny                  ();
+use YAML::Syck                  ();
+use JSON::PP                    ();
 
 
 =head1 ATTRIBUTES
@@ -157,13 +157,13 @@ sub run {
             JSON::PP->new->utf8->relaxed->allow_barekey->decode($arg_request);
         }
         elsif ($arg_request eq '-') {
-            LoadFile(\*STDIN);
+            YAML::Syck::LoadFile(\*STDIN);
         }
         elsif ($arg_request =~ /\.json$/) {
             JSON::PP->new->utf8->relaxed->allow_barekey->decode(read_file($arg_request));
         }
         else {
-            LoadFile($arg_request);
+            YAML::Syck::LoadFile($arg_request);
         }
     };
 
@@ -247,14 +247,14 @@ sub run {
     if ($self->{verbose}) {
         print "---\n";
         $trace->printRequest;
-        print Dump({ Data => { $operation => $request } }), "\n";
+        print YAML::Syck::Dump({ Data => { $operation => $request } }), "\n";
 
         print "---\n";
         $trace->printResponse;
-        print Dump({ Data => $response }), "\n";
+        print YAML::Syck::Dump({ Data => $response }), "\n";
     }
     else {
-        print Dump($response);
+        print YAML::Syck::Dump($response);
     }
 
     EXIT:
