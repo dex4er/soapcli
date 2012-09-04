@@ -13,6 +13,7 @@ WriteMakefile
   'PREREQ_PM' => {
                    'YAML::Syck' => 0,
                    'App::FatPacker' => 0,
+                   'YAML::XS' => 0,
                    'Test::More' => 0,
                    'JSON::PP' => 0,
                    'constant::boolean' => 0,

@@ -28,6 +28,7 @@
             "JSON::PP" : "0",
             "XML::Compile::SOAP" : "0",
             "YAML::Syck" : "0",
+            "YAML::XS" : "0",
             "constant::boolean" : "0",
             "perl" : "5.006"
          }
@@ -36,7 +37,7 @@
    "provides" : {
       "App::soapcli" : {
          "file" : "lib/App/soapcli.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       }
    },
    "release_status" : "stable",
@@ -51,5 +52,5 @@
          "url" : "http://github.com/dex4er/soapcli"
       }
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }

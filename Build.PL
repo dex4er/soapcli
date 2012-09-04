@@ -24,6 +24,7 @@ my $build = MyModuleBuild->new(
         'JSON::PP'              => 0,
         'XML::Compile::SOAP'    => 0,
         'YAML::Syck'            => 0,
+        'YAML::XS'              => 0,
     },
     build_requires          => {
         'App::FatPacker'        => 0,

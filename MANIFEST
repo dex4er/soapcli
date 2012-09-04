@@ -1,10 +1,11 @@
 Build.PL
 Changes
+examples/calculator-correct.yml
+examples/calculator-exception.yml
 examples/calculator.pl
 examples/calculator.psgi
 examples/calculator.url
 examples/calculator.wsdl
-examples/calculator.yml
 examples/globalweather.pl
 examples/globalweather.url
 examples/globalweather.wsdl
@@ -18,7 +19,8 @@ README
 README.md
 script/soapcli.pl
 t/010_use.t
-t/120_examples_calculator.t
+t/120_examples_calculator_correct.t
+t/125_examples_calculator_exception.t
 t/130_examples_globalweather.t
 t/test.pl
 xt/check_changes.t
@@ -39,6 +41,7 @@ xt/pod_coverage.t
 xt/pod_spell.t
 xt/pod_spellrc
 xt/pod_syntax.t
+xt/portability_files.t
 xt/signature.t
 Makefile.PL
 LICENSE

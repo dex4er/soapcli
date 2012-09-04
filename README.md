@@ -17,7 +17,7 @@ __soapcli__
 
 Examples:
 
-    $ soapcli -v calculator.yml calculator.url
+    $ soapcli -v calculator-correct.yml
 
     $ soapcli -v '{add:{x:2,y:2}}' http://soaptest.parasoft.com/calculator.wsdl
 
@@ -31,6 +31,21 @@ Examples:
 
 This is command-line SOAP client which accepts YAML or JSON document as
 an input data.
+
+The first argument is a request data as a JSON string or a name of file which
+contains data in JSON or YAML format.
+
+The second argument is an URL address to WSDL data or a filename of WSDL data
+file or a file which contains an URL address to WSDL data. This filename is
+optional and can be guessed from first argument.
+
+The third argument is an URL address of endpoint with a name of a webservice
+port. The URL address of endpoint is optional if is already a part of WSDL
+data. The name of port is optional if it is unambiguous for called method. The
+name of port should start with `#` character.
+
+The fourth argument is a name of method. It is optional if a name of method is
+already a part of request data.
 
 # SEE ALSO
 

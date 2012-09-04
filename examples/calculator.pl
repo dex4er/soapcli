@@ -1,3 +1,3 @@
 #!/usr/bin/perl
 
-system qw(soapcli -v calculator.yml calculator.url);
+system qw(soapcli -v calculator-correct.yml calculator.url);

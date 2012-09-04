@@ -23,10 +23,7 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
-
-use warnings;
-use strict;
+our $VERSION = '0.02';
 
 use Log::Report 'soapcli', syntax => 'SHORT';
 
@@ -36,11 +33,12 @@ use XML::Compile::SOAP11;
 use XML::Compile::Transport::SOAPHTTP;
 
 use constant::boolean;
-use File::Slurp;
+use File::Slurp               qw(read_file);
 use Getopt::Long::Descriptive ();
-use HTTP::Tiny;
-use YAML::Syck qw(Dump LoadFile);
-use JSON::PP;
+use HTTP::Tiny                ();
+use YAML::Syck                ();
+use YAML::XS                  ();
+use JSON::PP                  ();
 
 
 =head1 ATTRIBUTES
@@ -129,12 +127,25 @@ sub run {
         if (defined $self->{extra_argv}->[1]) {
             $self->{extra_argv}->[1];
         }
-        elsif (-f "$servicename.wsdl") {
-            "$servicename.wsdl";
-        }
         else {
-            "$servicename.url";
-        }
+            my $name = $servicename;
+            LOOP: {
+                do {
+                    if (-f "$name.wsdl") {
+                        $name .= '.wsdl';
+                        last;
+                    }
+                    elsif (-f "$name.url") {
+                        $name .= '.url';
+                        last;
+                    };
+                    $name =~ s/[._-][^._-]*$//;
+                }
+                while ($name =~ /[._-]/);
+                $name .= '.wsdl';
+            };
+            $name;
+        };
     };
 
     my $wsdldata = do {
@@ -143,10 +154,10 @@ sub run {
             chomp $url;
             HTTP::Tiny->new->get($url)->{content};
         }
-        else {
-            read_file($wsdlsrc) if $wsdlsrc =~ /\.wsdl$/;
-        }
-    };
+        elsif ($wsdlsrc =~ /\.wsdl$/ and -f $wsdlsrc) {
+            read_file($wsdlsrc);
+        };
+    } or die "Can not read WSDL data from `$wsdlsrc': $!\n";
 
 
     my $arg_endpoint = $self->{extra_argv}->[2];
@@ -157,15 +168,17 @@ sub run {
             JSON::PP->new->utf8->relaxed->allow_barekey->decode($arg_request);
         }
         elsif ($arg_request eq '-') {
-            LoadFile(\*STDIN);
+            YAML::Syck::LoadFile(\*STDIN);
         }
         elsif ($arg_request =~ /\.json$/) {
             JSON::PP->new->utf8->relaxed->allow_barekey->decode(read_file($arg_request));
         }
         else {
-            LoadFile($arg_request);
+            YAML::Syck::LoadFile($arg_request);
         }
     };
+
+    die "Wrong request format from `$arg_request'\n" unless ref $request||'' eq 'HASH';
 
 
     my $arg_operation = $self->{extra_argv}->[3];
@@ -227,6 +240,9 @@ sub run {
         address => $endpoint,
     );
 
+    $http->userAgent->agent("soapcli/$VERSION");
+    $http->userAgent->env_proxy;
+
     my $action = eval { $wsdl->operation($operation)->soapAction() };
 
     my $transport = $http->compileClient(
@@ -247,14 +263,14 @@ sub run {
     if ($self->{verbose}) {
         print "---\n";
         $trace->printRequest;
-        print Dump({ Data => { $operation => $request } }), "\n";
+        print YAML::XS::Dump({ Data => { $operation => $request } }), "\n";
 
         print "---\n";
         $trace->printResponse;
-        print Dump({ Data => $response }), "\n";
+        print YAML::XS::Dump({ Data => $response }), "\n";
     }
     else {
-        print Dump($response);
+        print YAML::XS::Dump($response);
     }
 
     EXIT:

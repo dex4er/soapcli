@@ -14,31 +14,33 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 c19577d21ff28327965e7f65be569de1b6ebbb6b Build.PL
-SHA1 a0ed26810323a03678d19bc2252661b0d7ad62a0 Changes
+SHA1 242929c4c949dd8f3753aa3d44017f67fcb60b7a Build.PL
+SHA1 fe0d71059a2e3ba6c4ab1e44379cd39e9fbbf56d Changes
 SHA1 39d4369e877ca8afd2c5736d89d21b67976f2d07 LICENSE
-SHA1 4b4133eb7c59eb10aff70a32ad1d0098867f9d35 MANIFEST
+SHA1 6269169bac5f877187048596eb8b030e73621377 MANIFEST
 SHA1 ede5fe6c5c33b5e0b3b2707db79afbc3c7b845f3 MANIFEST.SKIP
-SHA1 ac67b05a3f94dbeeea877b3e88a9ec66d22dc681 META.json
-SHA1 b44333bf5ef09ab60887850ea95166dae183a792 META.yml
-SHA1 36bdd6c8c9b80b51c3648c4dde99d201617ea0f4 Makefile.PL
+SHA1 5ee1e72904740d54057348155052030a383e6572 META.json
+SHA1 201abce915d0d3a2ddf23aece14fdac102fd93e2 META.yml
+SHA1 a8ee070e770e42be25a35c16a0cc06416ecb8fb0 Makefile.PL
 SHA1 20569f80ddc09e66b31feff37e03b750ea878269 MyModuleBuild.pm
-SHA1 828f2313c610b3e0877d91d3222f11f3c7b8b296 README
-SHA1 60b99dad3ac8a677f8e36a5e63c73c6e81477151 README.md
-SHA1 6665bece3d8a530a930aba5f48acb7e5c83454a8 examples/calculator.pl
+SHA1 031bc29f696b76392a10f8132b8138b8fa055846 README
+SHA1 5ecf44af869a18d1b8d00c939b1aa6d895309f64 README.md
+SHA1 cb62568ab9934ea2760db3d5c308875cd1333bff examples/calculator-correct.yml
+SHA1 aa7ab790df5cf71f512e515f24c8315d4a860625 examples/calculator-exception.yml
+SHA1 805d7fe274bb3a8b7b291d45111f73ea1127f898 examples/calculator.pl
 SHA1 a9526a952ec5b107634df24bd572479ff96a008f examples/calculator.psgi
 SHA1 96ad8d2662a8b411cad09dff847ed61e67208b98 examples/calculator.url
 SHA1 978b707832faeea2fef0642e715a25e7f87f4099 examples/calculator.wsdl
-SHA1 cb62568ab9934ea2760db3d5c308875cd1333bff examples/calculator.yml
 SHA1 d687468fb202cb7b2c38e08506830cc9ff52921b examples/globalweather.pl
 SHA1 46e060501378bc4cf82283c472036657c3d25973 examples/globalweather.url
 SHA1 95ab9cc85479e27f6a7c7f4a0425ef05c2156150 examples/globalweather.wsdl
 SHA1 e2bdab65cafc6106c4b0473d4a56fe3b0c2b3dee examples/globalweather.yml
 SHA1 da39a3ee5e6b4b0d3255bfef95601890afd80709 fatlib/.placeholder
-SHA1 56bdf672831c047588c77bc632ed1cfd3c39d7e1 lib/App/soapcli.pm
-SHA1 d1bb7f4cd4ae0d54061e151cb205561fe321bbf5 script/soapcli.pl
+SHA1 3c164bc6177a3cb9ce689200b1b66dbd99fb5310 lib/App/soapcli.pm
+SHA1 5c9379198b3b268c32db83462c76ffae942f4eb4 script/soapcli.pl
 SHA1 fe72e95277ee35dce36f92aede432dfe3a90f167 t/010_use.t
-SHA1 6abdb1b098a98de61b974c09723b14e31531c255 t/120_examples_calculator.t
+SHA1 53cfc0022c1bc6ed296111a14c221cd1972306ff t/120_examples_calculator_correct.t
+SHA1 115fa4df309a61e50914ea1815ebda8f21db25e3 t/125_examples_calculator_exception.t
 SHA1 46841f9c4a7756aa6570f3d5dc14e0b1e5e8cad7 t/130_examples_globalweather.t
 SHA1 e90d802fce3cf994afc27ec53c0c4713d9066ed5 t/test.pl
 SHA1 90353a99ac0f719b6f3e58029804d8556cedc2ab xt/check_changes.t
@@ -59,11 +61,12 @@ SHA1 46aa111935ff192343c30b72d28da1a71ef4abf0 xt/pod_coverage.t
 SHA1 bef7d46eb5cbc3e67956d4e823ec199f41ab9268 xt/pod_spell.t
 SHA1 fb6bda810f63cda06b43e0fbd43233f734c34480 xt/pod_spellrc
 SHA1 87cb53d4ad0162a872d5c70013fc41719e030555 xt/pod_syntax.t
+SHA1 f2dd15ffc2836703f46f2622702e1676891eed21 xt/portability_files.t
 SHA1 a38994922fda6d64e2ee75198fadc464a221fea9 xt/signature.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEARECAAYFAlAoAPEACgkQhMHHe8CxClsB5wCfaAJHijjF/C9m799xEgpW+iKk
-FMMAoKlwi1yFSGCeN2KFTfMlXb+U4Vp+
-=Ewjs
+iEYEARECAAYFAlBGDuMACgkQhMHHe8CxCluorACg70BWmt0DxUWyEhpHsz5NMc2U
+dOsAn3zejaHOYF5iNlc3AVClr17j8kiu
+=goNe
 -----END PGP SIGNATURE-----
