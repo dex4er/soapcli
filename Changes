@@ -1,6 +1,8 @@
 ------------------------------------------------------------------------
 0.0201  2013-01-21      Piotr Roszatycki <dexter@cpan.org>
 
+* The "soapcli" script is not FatPacked anymore.
+
 ------------------------------------------------------------------------
 0.02    2012-09-04      Piotr Roszatycki <dexter@cpan.org>
 
