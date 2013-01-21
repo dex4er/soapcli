@@ -9,7 +9,7 @@ test -x Build && ./Build distclean
 $PERL Build.PL
 
 rm -f MANIFEST
-pod2markdown < script/soapcli.pl > README.md
+pod2markdown < lib/$(grep ^name: MYMETA.yml | sed 's/^name: //; s,-,/,g').pm > README.md
 
 $PERL Build manifest
 
