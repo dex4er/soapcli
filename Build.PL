@@ -45,11 +45,10 @@ my $build = MyModuleBuild->new(
     ],
     meta_merge              => {
         resources               => {
-            bugtracker => "http://rt.cpan.org/NoAuth/Bugs.html?Dist=$dist",
+            bugtracker => "http://github.com/dex4er/soapcli/issues",
             repository => "http://github.com/dex4er/soapcli",
         },
     },
 );
 
 $build->create_build_script;
-
