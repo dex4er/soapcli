@@ -47,6 +47,18 @@ name of port should start with `#` character.
 The fourth argument is a name of method. It is optional if a name of method is
 already a part of request data.
 
+# INSTALLATION
+
+## Debian/Ubuntu
+
+    $ sudo apt-get install cpanminus build-essential libxml2-dev zlib1g-dev
+      libyaml-syck-perl libyaml-libyaml-perl libjson-pp-perl libhtml-tiny-perl
+      libgetopt-long-descriptive-perl libfile-slurp-perl
+      libxml-libxml-simple-perl libtest-tester-perl libtest-nowarnings-perl
+      libtest-deep-perl
+
+    $ sudo cpanm App::soapcli
+
 # SEE ALSO
 
 [http://github.com/dex4er/soapcli](http://github.com/dex4er/soapcli).

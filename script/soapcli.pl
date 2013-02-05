@@ -64,6 +64,18 @@ require App::soapcli;
 App::soapcli->new_with_options->run;
 
 
+=head1 INSTALLATION
+
+=head2 Debian/Ubuntu
+
+  $ sudo apt-get install cpanminus build-essential libxml2-dev zlib1g-dev
+    libyaml-syck-perl libyaml-libyaml-perl libjson-pp-perl libhtml-tiny-perl
+    libgetopt-long-descriptive-perl libfile-slurp-perl
+    libxml-libxml-simple-perl libtest-tester-perl libtest-nowarnings-perl
+    libtest-deep-perl
+
+  $ sudo cpanm App::soapcli
+
 =head1 SEE ALSO
 
 L<http://github.com/dex4er/soapcli>.
