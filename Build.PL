@@ -24,6 +24,7 @@ my $build = Module::Build::My->new(
         'HTTP::Tiny'            => 0,
         'JSON::PP'              => 0,
         'XML::Compile::SOAP'    => 0,
+        'XML::Compile::WSDL11'  => 0,
         'YAML::Syck'            => 0,
         'YAML::XS'              => 0,
     },
