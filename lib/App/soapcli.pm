@@ -244,7 +244,12 @@ sub run {
     $http->userAgent->agent("soapcli/$VERSION");
     $http->userAgent->env_proxy;
 
-    my $action = eval { $wsdl->operation($operation)->soapAction() };
+    my $action = eval {
+        $wsdl->operation(
+            $operation,
+            defined $port ? ( port => $port ) : (),
+        )->soapAction()
+    };
 
     my $transport = $http->compileClient(
         action => $action,
