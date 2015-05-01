@@ -35,3 +35,5 @@ allow = all
 
 [TestingAndDebugging::ProhibitProlongedStrictureOverride]
 statements = 12
+
+[-ValuesAndExpressions::ProhibitVersionStrings]
