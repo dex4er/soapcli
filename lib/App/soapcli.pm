@@ -18,7 +18,7 @@ This is core module for soapcli(1) utility.
 =cut
 
 
-use 5.006;
+use v5.10;
 
 use strict;
 use warnings;
@@ -267,13 +267,13 @@ sub run {
     my ($response, $trace) = $wsdl->call($operation, $request);
 
     if ($self->{verbose}) {
-        print "---\n";
+        say "---";
         $trace->printRequest;
-        print YAML::XS::Dump({ Data => { $operation => $request } }), "\n";
+        say YAML::XS::Dump({ Data => { $operation => $request } });
 
-        print "---\n";
+        say "---";
         $trace->printResponse;
-        print YAML::XS::Dump({ Data => $response }), "\n";
+        say YAML::XS::Dump({ Data => $response });
     }
     else {
         print YAML::XS::Dump($response);
