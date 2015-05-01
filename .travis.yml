@@ -11,4 +11,4 @@ install:
 script: ./Dist.SH
 perl:
   - '5.20'
-  - '5.8'
+  - '5.10'
