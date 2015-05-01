@@ -1,4 +1,4 @@
-0.0202  2014-05-18      Piotr Roszatycki <dexter@cpan.org>
+0.0202  2015-05-01      Piotr Roszatycki <dexter@cpan.org>
 
 * Requires XML::Compile::WSDL11 and XML::Compile::SOAP12
 
