@@ -30,6 +30,7 @@ use Log::Report 'soapcli', syntax => 'SHORT';
 use XML::LibXML;
 use XML::Compile::WSDL11;
 use XML::Compile::SOAP11;
+use XML::Compile::SOAP12;
 use XML::Compile::Transport::SOAPHTTP;
 
 use constant::boolean;
