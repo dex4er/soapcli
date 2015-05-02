@@ -33,8 +33,7 @@ use XML::Compile::SOAP11;
 use XML::Compile::SOAP12;
 use XML::Compile::Transport::SOAPHTTP;
 
-use constant::boolean;
-use File::Slurp               qw(read_file);
+use Perl6::Slurp              qw(slurp);
 use Getopt::Long::Descriptive ();
 use HTTP::Tiny                ();
 use YAML::Syck                ();
@@ -151,12 +150,12 @@ sub run {
 
     my $wsdldata = do {
         if ($wsdlsrc =~ /\.url$/ or $wsdlsrc =~ m{://}) {
-            my $url = $wsdlsrc =~ m{://} ? $wsdlsrc : read_file($wsdlsrc, chomp=>TRUE);
+            my $url = $wsdlsrc =~ m{://} ? $wsdlsrc : slurp($wsdlsrc, {chomp=>1});
             chomp $url;
             HTTP::Tiny->new->get($url)->{content};
         }
         elsif ($wsdlsrc =~ /\.wsdl$/ and -f $wsdlsrc) {
-            read_file($wsdlsrc);
+            slurp($wsdlsrc);
         };
     } or die "Can not read WSDL data from `$wsdlsrc': $!\n";
 
@@ -172,7 +171,7 @@ sub run {
             YAML::Syck::LoadFile(\*STDIN);
         }
         elsif ($arg_request =~ /\.json$/) {
-            JSON::PP->new->utf8->relaxed->allow_barekey->decode(read_file($arg_request));
+            JSON::PP->new->utf8->relaxed->allow_barekey->decode(slurp($arg_request));
         }
         else {
             YAML::Syck::LoadFile($arg_request);
@@ -212,7 +211,7 @@ sub run {
 
     my $endpoint = do {
         if (defined $arg_endpoint and $arg_endpoint !~ /^#/) {
-            my $url = $arg_endpoint =~ m{://} ? $arg_endpoint : read_file($arg_endpoint, chomp=>TRUE);
+            my $url = $arg_endpoint =~ m{://} ? $arg_endpoint : slurp($arg_endpoint, {chomp=>1});
             chomp $url;
             $url =~ s/^(.*)#(.*)$/$1/;
             $url;
@@ -257,8 +256,8 @@ sub run {
 
 
     $wsdl->compileCalls(
-        sloppy_floats   => TRUE,
-        sloppy_integers => TRUE,
+        sloppy_floats   => 1,
+        sloppy_integers => 1,
         transport       => $transport,
         defined $port ? ( port => $port ) : (),
         $self->{dump_xml_request} ? ( transport => sub { print $_[0]->toString(1); goto EXIT } ) : (),
@@ -280,7 +279,7 @@ sub run {
     }
 
     EXIT:
-    return TRUE;
+    return 1;
 };
 
 
