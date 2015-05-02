@@ -36,7 +36,7 @@ This is core module for soapcli(1) utility.
 
 # SEE ALSO
 
-[http://github.com/dex4er/soapcli](http://github.com/dex4er/soapcli), soapcli(1).
+[http://github.com/dex4er/soapcli](http://github.com/dex4er/soapcli), [soapcli](https://metacpan.org/pod/soapcli).
 
 # AUTHOR
 

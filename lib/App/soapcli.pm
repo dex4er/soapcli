@@ -288,7 +288,7 @@ sub run {
 
 =head1 SEE ALSO
 
-L<http://github.com/dex4er/soapcli>, soapcli(1).
+L<http://github.com/dex4er/soapcli>, L<soapcli>.
 
 =head1 AUTHOR
 
