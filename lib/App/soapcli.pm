@@ -85,9 +85,10 @@ sub new_with_options {
     local @ARGV = $argv ? @$argv : @ARGV;
 
     my ($opts, $usage) = Getopt::Long::Descriptive::describe_options(
-        "$0 %o data.yml [http://schema | schema.url]",
+        "$0 %o data.yml [http://schema | schema.url] [endpoint#port] [operation]",
         [ 'verbose|v',          'verbose mode with messages trace', ],
         [ 'dump-xml-request|x', 'dump request as XML document', ],
+        [ 'explain|e',          'explain webservice as Perl code', ],
         [ 'help|h',             'print usage message and exit', ],
         [ 'json|j',             'output result as JSON document', ],
         [ 'yaml|y',             'output result as YAML document', ],
@@ -265,7 +266,13 @@ sub run {
         $self->{dump_xml_request} ? ( transport => sub { print $_[0]->toString(1); goto EXIT } ) : (),
     );
 
+    if ($self->{explain}) {
+        die $wsdl->explain($operation, PERL => 'INPUT');
+    }
+
     my ($response, $trace) = $wsdl->call($operation, $request);
+
+    my $json = JSON::PP->new->utf8->allow_nonref;
 
     if ($self->{verbose}) {
         say "---";
@@ -274,7 +281,7 @@ sub run {
             say YAML::XS::Dump({ Data => { $operation => $request } });
         } else {
             say "---";
-            say JSON::PP::encode_json({ $operation => $request });
+            say $json->encode({ $operation => $request });
         }
         say "---";
         $trace->printResponse;
@@ -282,14 +289,14 @@ sub run {
             say YAML::XS::Dump({ Data => $response });
         } else {
             say "---";
-            say JSON::PP::encode_json($response);
+            say $json->encode($response);
         }
     }
     else {
         if ($self->{yaml}) {
             print YAML::XS::Dump($response);
         } else {
-            say JSON::PP::encode_json($response);
+            say $json->encode($response);
         }
     }
 
