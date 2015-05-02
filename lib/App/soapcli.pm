@@ -168,13 +168,13 @@ sub run {
 
     my $request = do {
         if ($arg_request =~ /^{/) {
-            JSON::PP->new->utf8->relaxed->allow_barekey->decode($arg_request);
+            JSON::PP->new->utf8->relaxed->allow_barekey->decode($arg_request =~ s/\n//gr);
         }
         elsif ($arg_request eq '-') {
             YAML::Syck::LoadFile(\*STDIN);
         }
         elsif ($arg_request =~ /\.json$/) {
-            JSON::PP->new->utf8->relaxed->allow_barekey->decode(slurp($arg_request));
+            JSON::PP->new->utf8->relaxed->allow_barekey->decode(slurp($arg_request) =~ s/\n//gr);
         }
         else {
             YAML::Syck::LoadFile($arg_request);
