@@ -1,5 +1,6 @@
 0.0300 2015-05-02 Piotr Roszatycki <dexter@cpan.org>
  - Supports SOAP12.
+ - Outputs result as JSON by default.
 
 0.0201 2013-01-21 Piotr Roszatycki <dexter@cpan.org>
  - The "soapcli" script is not FatPacked anymore.

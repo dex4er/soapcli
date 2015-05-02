@@ -4,7 +4,7 @@ package App::soapcli;
 
 =head1 NAME
 
-App::soapcli - SOAP client for CLI with YAML and JSON input
+App::soapcli - SOAP client for CLI with YAML and JSON input and output
 
 =head1 SYNOPSIS
 
@@ -13,7 +13,7 @@ App::soapcli - SOAP client for CLI with YAML and JSON input
 
 =head1 DESCRIPTION
 
-This is core module for soapcli(1) utility.
+This is core module for L<soapcli> utility.
 
 =cut
 
@@ -71,7 +71,7 @@ sub new {
 };
 
 
-=item new_with_options (%args)
+=item nedw_with_options (%args)
 
 The constructor which initializes the object based on C<@ARGV> variable or
 based on array reference if I<argv> option is set.
@@ -89,6 +89,8 @@ sub new_with_options {
         [ 'verbose|v',          'verbose mode with messages trace', ],
         [ 'dump-xml-request|x', 'dump request as XML document', ],
         [ 'help|h',             'print usage message and exit', ],
+        [ 'json|j',             'output result as JSON document', ],
+        [ 'yaml|y',             'output result as YAML document', ],
     );
 
     die $usage->text if $opts->help or @ARGV < 1;
@@ -268,14 +270,27 @@ sub run {
     if ($self->{verbose}) {
         say "---";
         $trace->printRequest;
-        say YAML::XS::Dump({ Data => { $operation => $request } });
-
+        if ($self->{yaml}) {
+            say YAML::XS::Dump({ Data => { $operation => $request } });
+        } else {
+            say "---";
+            say JSON::PP::encode_json({ $operation => $request });
+        }
         say "---";
         $trace->printResponse;
-        say YAML::XS::Dump({ Data => $response });
+        if ($self->{yaml}) {
+            say YAML::XS::Dump({ Data => $response });
+        } else {
+            say "---";
+            say JSON::PP::encode_json($response);
+        }
     }
     else {
-        print YAML::XS::Dump($response);
+        if ($self->{yaml}) {
+            print YAML::XS::Dump($response);
+        } else {
+            say JSON::PP::encode_json($response);
+        }
     }
 
     EXIT:

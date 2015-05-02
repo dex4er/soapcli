@@ -2,13 +2,15 @@
 
 =head1 NAME
 
-soapcli - SOAP client for CLI with YAML and JSON input
+soapcli - SOAP client for CLI with YAML and JSON input and output
 
 =head1 SYNOPSIS
 
 B<soapcli>
 S<[--verbose|-v]>
 S<[--dump-xml-request|-x]>
+S<[--json|-j]>
+S<[--yaml|-y]>
 data.yml|data.json|{string:"JSON"}|-
 [webservice.wsdl|webservice_wsdl.url]
 [[http://example.com/endpoint|endpoint.url][#port]]
@@ -19,9 +21,9 @@ S<[--help|-h]>
 
 Examples:
 
-  $ soapcli -v calculator-correct.yml
+  $ soapcli calculator-correct.json
 
-  $ soapcli -v '{add:{x:2,y:2}}' http://soaptest.parasoft.com/calculator.wsdl
+  $ soapcli -y '{add:{x:2,y:2}}' http://soaptest.parasoft.com/calculator.wsdl
 
   $ soapcli -v globalweather.yml globalweather.url '#GlobalWeatherSoap'
 
@@ -48,6 +50,8 @@ name of port should start with C<#> character.
 
 The fourth argument is a name of method. It is optional if a name of method is
 already a part of request data.
+
+The result will be dumped as JSON (by default) or YAML.
 
 =cut
 
