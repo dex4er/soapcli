@@ -71,7 +71,7 @@ sub new {
 };
 
 
-=item nedw_with_options (%args)
+=item new_with_options (%args)
 
 The constructor which initializes the object based on C<@ARGV> variable or
 based on array reference if I<argv> option is set.

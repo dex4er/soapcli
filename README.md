@@ -2,7 +2,7 @@
 
 # NAME
 
-App::soapcli - SOAP client for CLI with YAML and JSON input
+App::soapcli - SOAP client for CLI with YAML and JSON input and output
 
 # SYNOPSIS
 
@@ -11,7 +11,7 @@ App::soapcli - SOAP client for CLI with YAML and JSON input
 
 # DESCRIPTION
 
-This is core module for soapcli(1) utility.
+This is core module for [soapcli](https://metacpan.org/pod/soapcli) utility.
 
 # ATTRIBUTES
 

@@ -20,7 +20,7 @@ max_characters = 70
 minimum_regex_length_to_complain_about = 75
 
 [Subroutines::ProhibitExcessComplexity]
-max_mccabe = 40
+max_mccabe = 100
 
 [-Subroutines::ProhibitSubroutinePrototypes]
 
