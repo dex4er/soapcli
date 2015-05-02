@@ -11,7 +11,7 @@ use Test::More tests => 3;
 
 BEGIN { use_ok 'App::soapcli' };
 
-my $app = App::soapcli->new( dump_xml_request => 1, extra_argv => [ qw( examples/calculator-exception.yml ) ] );
+my $app = App::soapcli->new( dump_xml_request => 1, extra_argv => [ qw( examples/calculator-exception.json ) ] );
 is ref $app, 'App::soapcli', '$app isa App::soapcli';
 
 my $buf;
