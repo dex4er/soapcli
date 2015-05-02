@@ -1,18 +1,15 @@
-0.0202  2015-05-01      Piotr Roszatycki <dexter@cpan.org>
+0.0300 2015-05-02 Piotr Roszatycki <dexter@cpan.org>
+ - Supports SOAP12.
 
-* Requires XML::Compile::WSDL11 and XML::Compile::SOAP12
+0.0201 2013-01-21 Piotr Roszatycki <dexter@cpan.org>
+ - The "soapcli" script is not FatPacked anymore.
 
-0.0201  2013-01-21      Piotr Roszatycki <dexter@cpan.org>
+0.02 2012-09-04 Piotr Roszatycki <dexter@cpan.org>
+ - WSDL filename is guessed from request data filename.
+ - User-Agent is "soapcli/$VERSION".
+ - Supports HTTP proxy.
+ - Requires YAML::XS for dumping of request (has better output format).
 
-* The "soapcli" script is not FatPacked anymore.
+0.01 2012-08-12 Piotr Roszatycki <dexter@cpan.org>
+ - First CPAN release.
 
-0.02    2012-09-04      Piotr Roszatycki <dexter@cpan.org>
-
-* WSDL filename is guessed from request data filename.
-* User-Agent is "soapcli/$VERSION".
-* Supports HTTP proxy.
-* Requires YAML::XS for dumping of request (has better output format).
-
-0.01    2012-08-12      Piotr Roszatycki <dexter@cpan.org>
-
-* First CPAN release.
