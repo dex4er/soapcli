@@ -275,7 +275,7 @@ sub run {
 
     my ($response, $trace) = $wsdl->call($operation, $request);
 
-    my $json = JSON::PP->new->utf8->allow_nonref;
+    my $json = JSON::PP->new->utf8->allow_nonref->convert_blessed;
 
     if ($self->{verbose}) {
         say "---";
