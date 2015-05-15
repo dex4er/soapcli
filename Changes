@@ -1,3 +1,6 @@
+0.0301 2015-05-15 Piotr Roszatycki <dexter@cpan.org>
+ - Allow to convert Perl objects in JSON output.
+
 0.0300 2015-05-02 Piotr Roszatycki <dexter@cpan.org>
  - Supports SOAP12.
  - Outputs result as JSON by default.
